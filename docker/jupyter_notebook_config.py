@@ -18,10 +18,8 @@ if 'GEN_CERT' in os.environ:
   pem_file = os.path.join(dir_name, 'notebook.pem')
   try:
     os.makedirs(dir_name)
-  except OSError as exc:  # Python >2.5
-    if exc.errno == errno.EEXIST and os.path.isdir(dir_name):
-      pass
-    else:
+  except OSError as exc:# Python >2.5
+    if exc.errno != errno.EEXIST or not os.path.isdir(dir_name):
       raise
   # Generate a certificate if one doesn't exist on disk
   subprocess.check_call(['openssl', 'req', '-new',
